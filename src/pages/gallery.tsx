@@ -15,7 +15,7 @@ interface Props {
   data: Data;
 }
 
-const gallery: React.FC<Props> = ({ data }) => {
+const Gallery: React.FC<Props> = ({ data }) => {
   const asciis = useSelector((state: RootState) => state.ascii.value);
   const [loading, setLoading] = React.useState(false);
   const dispatch = useDispatch();
@@ -103,7 +103,7 @@ const gallery: React.FC<Props> = ({ data }) => {
   );
 };
 
-export default gallery;
+export default Gallery;
 
 export async function getServerSideProps() {
   // Fetch data from external API
