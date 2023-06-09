@@ -9,6 +9,11 @@ interface Data {
 
 export async function getData(take: number, skip: number) {
   const ascii = await prisma.picture.findMany({
+    orderBy: [
+      {
+        dateCreated: 'desc'
+      }
+    ],
     take,
     skip,
   });

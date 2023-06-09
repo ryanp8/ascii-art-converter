@@ -17,8 +17,8 @@ const getIdxs = async (imgData: string) => {
   const image = await Jimp.read(Buffer.from(imgData, 'base64'));
   const height = image.getHeight();
   const width = image.getWidth();
-  const chunkHeight = Math.floor(8 * height / width);
-  const chunkWidth = Math.floor(8 * width / height);
+  const chunkHeight = Math.floor(8);
+  const chunkWidth = Math.floor(4);
   const gray = image.grayscale();
 
   let chunkIdxs = []
@@ -70,7 +70,9 @@ export default async function handler(
 ) {
   // Empty picture to create id
   const image = await prisma.picture.create({
-    data: {},
+    data: {
+      dateCreated: new Date()
+    },
   });
 
   const img = req.body;
@@ -90,7 +92,7 @@ export default async function handler(
       },
       data: {
         url: `gs://${snapshot.metadata.bucket}/${snapshot.metadata.fullPath}`,
-        translated: result
+        translated: result,
       }
     })
   } catch (err) {

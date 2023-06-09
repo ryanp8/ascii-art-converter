@@ -88,8 +88,7 @@ export default function Home() {
                       />
                     </svg>
                     <span className="font-medium text-gray-600">
-                      Drop files to Attach, or
-                      <span className="text-blue-600 underline"> browse</span>
+                      Click to select a file
                     </span>
                   </span>
                   <input

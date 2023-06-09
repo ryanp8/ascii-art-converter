@@ -11,8 +11,9 @@ datasource db {
 }
 
 model Picture {
-  id         String  @id @default(cuid())
-  category   String?
-  url        String?
-  translated String? @db.Text()
+  id          String   @id @default(cuid())
+  dateCreated DateTime
+  category    String?
+  url         String?
+  translated  String?  @db.Text()
 }
