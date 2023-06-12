@@ -22,8 +22,9 @@ const Gallery: React.FC<Props> = ({ data }) => {
   const router = useRouter();
 
   React.useEffect(() => {
-    dispatch(addAscii(data));
-    // console.log("adding data");
+    if (asciis.length == 0) {
+      dispatch(addAscii(data));
+    }
   }, []);
 
   const getMoreData = async () => {
@@ -108,6 +109,7 @@ export default Gallery;
 export async function getServerSideProps() {
   // Fetch data from external API
   const data: { id: string; ascii: string }[] = await getData(5, 0);
+  console.log("[gallery]: running getServerSideProps")
   // Pass data to the page via props
   return { props: { data } };
 }
