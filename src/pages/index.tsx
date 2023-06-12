@@ -11,6 +11,7 @@ export default function Home() {
   const [imageUrl, setImageUrl] = React.useState("");
   const [ascii, setAscii] = React.useState();
   const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(false);
   const router = useRouter();
 
   const toBase64 = (file: File) =>
@@ -24,6 +25,13 @@ export default function Home() {
   const changeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const image = e.target.files[0];
+      if (image.size > 1000000) {
+        setError(true);
+        return;
+      }
+      if (error) {
+        setError(false);
+      }
       setImageUrl(URL.createObjectURL(image));
       setImage(image);
     }
@@ -103,6 +111,8 @@ export default function Home() {
             <div>
               {imageUrl && <img className="max-w-xs" src={imageUrl}></img>}
             </div>
+            <p>Note: Max file size is 1 mb</p>
+            {error && <p className="text-red-500">The selected file was too large.</p>}
 
             <div className="flex justify-around">
               {imageUrl && (
@@ -117,7 +127,6 @@ export default function Home() {
                   Remove Image
                 </button>
               )}
-
               <button
                 onClick={onSubmit}
                 className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-4 border border-blue-500 hover:border-transparent rounded"
