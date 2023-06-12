@@ -17,8 +17,13 @@ const getIdxs = async (imgData: string) => {
   const image = await Jimp.read(Buffer.from(imgData, 'base64'));
   const height = image.getHeight();
   const width = image.getWidth();
-  const chunkHeight = Math.floor(8);
-  const chunkWidth = Math.floor(4);
+  let chunkHeight = Math.floor(8);
+  let chunkWidth = Math.floor(4);
+  while (height * width / (chunkHeight * chunkWidth) > 64000) {
+    chunkHeight *= 2;
+    chunkWidth *= 2;
+  }
+
   const gray = image.grayscale();
 
   let chunkIdxs = []
@@ -95,10 +100,10 @@ export default async function handler(
         translated: result,
       }
     })
+    console.log('UPDATED')
   } catch (err) {
     console.log('error:', err);
   }
-  console.log(result);
   res.status(200).json({ result });
 }
 
