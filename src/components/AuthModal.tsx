@@ -103,7 +103,7 @@ export default function AuthModal() {
                     <div className="mb-4">
                       <label
                         className="block text-gray-700 text-sm mb-2"
-                        for="username"
+                        htmlFor="username"
                       >
                         Username
                       </label>
@@ -124,7 +124,7 @@ export default function AuthModal() {
                     <div className="mb-6">
                       <label
                         className="block text-gray-700 text-sm mb-2"
-                        for="password"
+                        htmlFor="password"
                       >
                         Password
                       </label>
@@ -140,7 +140,7 @@ export default function AuthModal() {
                         <>
                           <label
                             className="block text-gray-700 text-sm mb-2"
-                            for="confirm-password"
+                            htmlFor="confirm-password"
                           >
                             Confirm Password
                           </label>
