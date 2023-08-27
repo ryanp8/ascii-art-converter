@@ -1,5 +1,8 @@
+// 'use server'
+
 import { NextApiRequest, NextApiResponse } from "next";
-import jwt from "jsonwebtoken";
+// import { cookies } from "next/headers"
+import { serialize } from "cookie";
 import bcrypt from "bcrypt";
 import { prisma } from "../../../prisma";
 
@@ -24,14 +27,15 @@ export default async function handler(
     return;
   }
 
-  const validPassword = bcrypt.compare(password, user.password);
+  const validPassword = await bcrypt.compare(password, user.password);
+  console.log(validPassword)
   if (!validPassword) {
     res.status(401).send({ message: "Incorrect password" });
     return;
   }
 
-  const accessToken = createAccessToken(username);
-  const refreshToken = createRefreshToken(username);
+  const accessToken = createAccessToken(user.id, user.username);
+  const refreshToken = createRefreshToken(user.id, user.username);
 
   await prisma.user.update({
     where: { username },
@@ -39,6 +43,15 @@ export default async function handler(
       refreshToken,
     },
   });
-
-  res.status(200).send({ userId: user.id, accessToken });
+  // cookies().set({
+  //   name: 'accessToken',
+  //   value: accessToken,
+  //   httpOnly: true,
+  //   path: '/'
+  // });
+  res.setHeader(
+    "Set-Cookie",
+    `${serialize("accessToken", accessToken)}; HttpOnly; Path=/`
+  );
+  res.status(200).send({ userId: user.id, username: user.username });
 }

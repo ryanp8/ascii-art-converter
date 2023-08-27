@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAuthOpen } from "@/redux/uiSlice";
 import { RootState } from "@/redux/store";
 import { Transition, Dialog } from "@headlessui/react";
-
 import { UserContext } from "@/context/userContext";
 
 export default function AuthModal() {
@@ -15,7 +14,7 @@ export default function AuthModal() {
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [error, setError] = React.useState("");
-  const userContext = React.useContext(UserContext);
+  const {setUser} = React.useContext(UserContext)
 
   function closeModal() {
     dispatch(setAuthOpen(false));
@@ -32,11 +31,12 @@ export default function AuthModal() {
           }),
         });
         if (res.status == 401) {
-          setInvalidUsername(username)
-          setError("That username already exists.")
+          setInvalidUsername(username);
+          setError("That username already exists.");
         } else {
           const user = await res.json();
-          userContext.setUser(user)
+          dispatch(setAuthOpen(false));
+          setUser(user);
         }
       }
     } else {
@@ -44,14 +44,15 @@ export default function AuthModal() {
         method: "POST",
         body: JSON.stringify({
           username,
-          password
-        })
+          password,
+        }),
       });
       if (res.status == 401) {
-        setError("Invalid username or password.")
+        setError("Invalid username or password.");
       } else {
         const user = await res.json();
-        userContext.setUser(user)
+        dispatch(setAuthOpen(false));
+        setUser(user);
       }
     }
   }
@@ -110,9 +111,9 @@ export default function AuthModal() {
                         type="text"
                         onChange={(e) => {
                           if (e.target.value === invalidUsername) {
-                            setError("That username already exists")
+                            setError("That username already exists");
                           } else {
-                            setError("")
+                            setError("");
                           }
                           setUsername(e.target.value);
                         }}
@@ -154,12 +155,10 @@ export default function AuthModal() {
                               Passwords must match.
                             </p>
                           )}
-                          {error && (
-                            <p className="text-red-500 text-xs italic">
-                              {error}
-                            </p>
-                          )}
                         </>
+                      )}
+                      {error && (
+                        <p className="text-red-500 text-xs italic">{error}</p>
                       )}
                     </div>
                   </form>

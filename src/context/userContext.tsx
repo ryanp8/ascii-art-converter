@@ -2,10 +2,15 @@ import React from 'react';
 
 interface User {
   userId: string;
-  accessToken: string;
+  username: string;
 }
 
-export const UserContext = React.createContext({
+interface UserContext {
+  user: User | null;
+  setUser: (user: User | null) => void
+}
+
+export const UserContext = React.createContext<UserContext>({
   user: null,
-  setUser: (user: User) => {}
+  setUser: (user: User | null) => {}
 });

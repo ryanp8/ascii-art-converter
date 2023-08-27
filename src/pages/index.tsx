@@ -4,13 +4,12 @@ import { Inter } from "next/font/google";
 import { Ascii } from "@/components/Ascii";
 import { useRouter } from "next/router";
 
-import { UserContext } from "@/context/userContext";
 import { setAuthOpen } from "@/redux/uiSlice";
 import { useDispatch } from "react-redux";
 
 import AuthModal from "@/components/AuthModal";
-
-const inter = Inter({ subsets: ["latin"] });
+import Link from "next/link";
+import { UserContext } from "@/context/userContext";
 
 export default function Home() {
   const [image, setImage] = React.useState<File>();
@@ -18,8 +17,7 @@ export default function Home() {
   const [ascii, setAscii] = React.useState();
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
-  const user = React.useContext(UserContext);
-  const router = useRouter();
+  const { user } = React.useContext(UserContext);
   const dispatch = useDispatch();
 
   const toBase64 = (file: File) =>
@@ -69,19 +67,17 @@ export default function Home() {
 
   const onUpload = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (ascii && user) {
+    if (!user) {
+      dispatch(setAuthOpen(true));
+      return;
+    }
+    if (ascii) {
       setLoading(true);
       const res = await fetch("/api/upload", {
         method: "POST",
         body: JSON.stringify({ ascii }),
       });
-      if (res.status == 401) {
-        dispatch(setAuthOpen(true));
-      }
       setLoading(false);
-    }
-    if (!user) {
-      dispatch(setAuthOpen(true));
     }
   };
 
@@ -93,15 +89,14 @@ export default function Home() {
         <div className="flex justify-center">
           <div>
             <div className="flex justify-center my-8">
-              <button
-                type="button"
-                onClick={() => {
-                  router.push("/gallery");
-                }}
-                className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-              >
-                View Gallery
-              </button>
+              <Link href="/gallery">
+                <button
+                  type="button"
+                  className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                >
+                  View Gallery
+                </button>
+              </Link>
             </div>
 
             <form>
