@@ -5,4 +5,7 @@ interface User {
   accessToken: string;
 }
 
-export const UserContext = React.createContext<User | null>(null);
+export const UserContext = React.createContext({
+  user: null,
+  setUser: (user: User) => {}
+});

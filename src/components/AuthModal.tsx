@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAuthOpen } from "@/redux/uiSlice";
 import { RootState } from "@/redux/store";
 import { Transition, Dialog } from "@headlessui/react";
-import Link from "next/link";
+
+import { UserContext } from "@/context/userContext";
 
 export default function AuthModal() {
   const isOpen = useSelector((state: RootState) => state.ui.showAuthModal);
@@ -14,13 +15,13 @@ export default function AuthModal() {
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [error, setError] = React.useState("");
+  const userContext = React.useContext(UserContext);
 
   function closeModal() {
     dispatch(setAuthOpen(false));
   }
 
   async function onSubmit() {
-    console.log("SUBMITTIING")
     if (showSignUp) {
       if (password === confirmPassword) {
         const res = await fetch("/api/signup", {
@@ -30,12 +31,28 @@ export default function AuthModal() {
             password,
           }),
         });
-        if (res.status == 400) {
+        if (res.status == 401) {
           setInvalidUsername(username)
           setError("That username already exists.")
+        } else {
+          const user = await res.json();
+          userContext.setUser(user)
         }
       }
     } else {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        body: JSON.stringify({
+          username,
+          password
+        })
+      });
+      if (res.status == 401) {
+        setError("Invalid username or password.")
+      } else {
+        const user = await res.json();
+        userContext.setUser(user)
+      }
     }
   }
 

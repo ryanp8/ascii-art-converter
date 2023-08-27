@@ -19,7 +19,7 @@ export default async function handler(
     where: { username },
   });
   if (existingUser) {
-    res.status(400).send({ message: "User already exists" });
+    res.status(401).send({ message: "User already exists" });
     return;
   }
 
