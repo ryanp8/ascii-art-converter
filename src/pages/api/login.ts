@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { prisma } from "@/../prisma";
+import { prisma } from "../../../prisma";
 
-import { createRefreshToken, createAccessToken } from ".";
+import { createRefreshToken, createAccessToken } from "@/auth";
 
 interface ReqData {
   username: string;

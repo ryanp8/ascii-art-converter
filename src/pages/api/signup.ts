@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 
-import { prisma } from "@/../prisma";
-import { createAccessToken, createRefreshToken } from ".";
+import { prisma } from "../../../prisma";
+import { createAccessToken, createRefreshToken } from "@/auth";
 
 interface ReqData {
   username: string;
@@ -14,6 +14,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { username, password }: ReqData = JSON.parse(req.body);
+  console.log(username, password)
   const existingUser = await prisma.user.findUnique({
     where: { username },
   });
