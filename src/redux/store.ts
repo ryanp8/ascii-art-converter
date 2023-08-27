@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import asciiReducer from "./asciiSlice";
+import uiReducer from "./uiSlice";
 
 export const store = configureStore({
     reducer: {
-        ascii: asciiReducer
+        ascii: asciiReducer,
+        ui: uiReducer
     }
 });
 

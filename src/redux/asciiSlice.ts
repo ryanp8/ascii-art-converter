@@ -1,10 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface Data {
-    id: string;
-    ascii: string;
-}
-
 export const asciiSlice = createSlice({
   name: "asciis",
   initialState: { value: [] },
