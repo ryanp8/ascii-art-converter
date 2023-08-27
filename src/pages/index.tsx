@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import { Ascii } from "@/components/Ascii";
 import { useRouter } from "next/router";
 
+import { UserContext } from "@/context/userContext";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
@@ -12,6 +14,8 @@ export default function Home() {
   const [ascii, setAscii] = React.useState();
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
+  const [showAuthModal, setShowAuthModal] = React.useState(false);
+  const user = React.useContext(UserContext);
   const router = useRouter();
 
   const toBase64 = (file: File) =>
@@ -37,13 +41,13 @@ export default function Home() {
     }
   };
 
-  const onSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onConvert = async(e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (image) {
       try {
         setLoading(true);
         const base64 = await toBase64(image);
-        const res = await fetch("/api/upload", {
+        const res = await fetch("/api/convert", {
           method: "POST",
           headers: {
             "Content-Type": "multipart/form-data",
@@ -58,6 +62,24 @@ export default function Home() {
       }
     }
   };
+
+  const onUpload = async(e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    if (ascii && user) {
+      setLoading(true)
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: JSON.stringify({ ascii })
+      })
+      if (res.status == 401) {
+        setShowAuthModal(true)
+      }
+      setLoading(false)
+    }
+    if (!user) {
+      setShowAuthModal(true)
+    }
+  }
 
   return (
     <div className="m-12">
@@ -128,10 +150,16 @@ export default function Home() {
                 </button>
               )}
               <button
-                onClick={onSubmit}
+                onClick={onConvert}
                 className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-4 border border-blue-500 hover:border-transparent rounded"
               >
                 Convert
+              </button>
+              <button
+                onClick={onUpload}
+                className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-4 border border-blue-500 hover:border-transparent rounded"
+              >
+                Upload to gallery
               </button>
             </div>
           </form>
