@@ -17,10 +17,6 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-interface Props {
-  username: string;
-}
-
 export default function Navbar() {
 
   const userContext = React.useContext(UserContext);

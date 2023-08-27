@@ -22,6 +22,8 @@ export default async function handler(
     where: { username },
   });
 
+  console.log('[user]', user);
+
   if (!user) {
     res.status(404).send({ message: "User not found" });
     return;

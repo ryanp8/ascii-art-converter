@@ -14,7 +14,7 @@ export default function AuthModal() {
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [error, setError] = React.useState("");
-  const {setUser} = React.useContext(UserContext)
+  const { setUser } = React.useContext(UserContext);
 
   function closeModal() {
     dispatch(setAuthOpen(false));
@@ -49,6 +49,8 @@ export default function AuthModal() {
       });
       if (res.status == 401) {
         setError("Invalid username or password.");
+      } else if (res.status == 404) {
+        setError("Username not found");
       } else {
         const user = await res.json();
         dispatch(setAuthOpen(false));
@@ -173,7 +175,10 @@ export default function AuthModal() {
                     <p className="mt-3 text-gray-600 text-xs font-medium">
                       <span
                         className="underline cursor-pointer"
-                        onClick={() => setShowSignUp(!showSignUp)}
+                        onClick={() => {
+                          setShowSignUp(!showSignUp);
+                          setError("");
+                        }}
                       >
                         {showSignUp ? "Log in" : "Sign up"}
                       </span>{" "}
