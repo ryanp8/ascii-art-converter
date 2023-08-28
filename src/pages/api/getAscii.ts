@@ -9,6 +9,9 @@ interface Data {
 
 export async function getData(take: number, skip: number) {
   const ascii = await prisma.picture.findMany({
+    include: {
+      author: true
+    },
     orderBy: [
       {
         dateCreated: 'desc'
@@ -23,7 +26,10 @@ export async function getData(take: number, skip: number) {
     for (const a of ascii) {
       data.push({
         id: a.id,
+        authorId: a.author.id,
         ascii: a.translated as string,
+        author: a.author.username,
+        date: a.dateCreated.toISOString().replace(/T.*/,'').split('-').reverse().join('-')
       });
     }
     return data;

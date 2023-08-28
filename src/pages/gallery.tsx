@@ -3,12 +3,16 @@ import { getData } from "./api/getAscii";
 import React from "react";
 import { RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { addAscii } from "@/redux/asciiSlice";
+import { addAscii, deleteAscii } from "@/redux/asciiSlice";
 import { useRouter } from "next/router";
+import GalleryItem from "@/components/galleryItem";
 
 interface Data {
   id: string;
+  authorId: string;
   ascii: string;
+  author: string;
+  date: string;
 }
 
 interface Props {
@@ -27,14 +31,13 @@ const Gallery: React.FC<Props> = ({ data }) => {
     }
   }, []);
 
-  const getMoreData = async () => {
-    // console.log(asciis);
+  async function getMoreData() {
     setLoading(true);
     const res = await fetch(`/api/getAscii?take=3&skip=${asciis.length}`);
     const json = await res.json();
     dispatch(addAscii(json.result));
     setLoading(false);
-  };
+  }
 
   return (
     <>
@@ -59,11 +62,14 @@ const Gallery: React.FC<Props> = ({ data }) => {
           {asciis &&
             asciis.map((ascii: Data, i: number) => {
               return (
-                <div key={i}>
-                  <div className="p-10">
-                    <Ascii ascii={ascii.ascii} />
-                  </div>
-                </div>
+                <GalleryItem
+                  key={i}
+                  id={ascii.id}
+                  authorId={ascii.authorId}
+                  username={ascii.author}
+                  ascii={ascii.ascii}
+                  dateCreated={ascii.date}
+                />
               );
             })}
           <div className="flex justify-center">
@@ -108,8 +114,8 @@ export default Gallery;
 
 export async function getServerSideProps() {
   // Fetch data from external API
-  const data: { id: string; ascii: string }[] = await getData(5, 0);
-  console.log("[gallery]: running getServerSideProps")
+  const data: Data[] = await getData(5, 0);
+  console.log("[gallery]: running getServerSideProps");
   // Pass data to the page via props
   return { props: { data } };
 }

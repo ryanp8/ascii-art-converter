@@ -22,6 +22,8 @@ export default function Home() {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  console.log(user)
+
   const toBase64 = (file: File) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -88,7 +90,7 @@ export default function Home() {
       <AuthModal />
       <div className="flex flex-col align-center m-8">
         <h1 className="text-4xl text-center">Image to Ascii Art Converter</h1>
-        <div className="my-8 flex md:flex-row">
+        <div className="my-8 flex flex-col md:flex-row">
           <div className="m-6">
             <p>Upload image here (max 1mb)</p>
             <form className="my-3">
@@ -159,9 +161,9 @@ export default function Home() {
               )}
             </form>
           </div>
-          <div className="bg-gray-200 flex-grow flex p-6">
+          <div className="w-3/4 flex flex-col p-6">
             <p>Result</p>
-            <div className="flex justify-center items-center ">
+            <div className="flex h-full bg-gray-200 rounded">
               {loading && (
                 <div role="status">
                   <svg

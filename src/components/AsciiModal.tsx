@@ -1,5 +1,5 @@
 import React from "react";
-import { Ascii } from "@/components/Ascii";
+import Ascii from "@/components/Ascii";
 import { Transition, Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
