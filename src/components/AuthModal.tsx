@@ -15,6 +15,7 @@ export default function AuthModal() {
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [error, setError] = React.useState("");
   const { setUser } = React.useContext(UserContext);
+  const dialogRef = React.useRef(null);
 
   function closeModal() {
     dispatch(setAuthOpen(false));
@@ -62,7 +63,7 @@ export default function AuthModal() {
   return (
     <>
       <Transition appear show={isOpen} as={React.Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+        <Dialog as="div" className="relative z-2" onClose={closeModal} ref={dialogRef}>
           <Transition.Child
             as={React.Fragment}
             enter="ease-out duration-300"
@@ -108,7 +109,7 @@ export default function AuthModal() {
                         Username
                       </label>
                       <input
-                        className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="z-3 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="username"
                         type="text"
                         onChange={(e) => {
@@ -129,7 +130,7 @@ export default function AuthModal() {
                         Password
                       </label>
                       <input
-                        className="border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                        className="z-3 border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                         id="password"
                         type="password"
                         onChange={(e) => {

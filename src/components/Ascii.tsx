@@ -1,11 +1,10 @@
-import React from 'react';
+import React from "react";
 
 interface Props {
-    ascii: string;
+  ascii: string;
 }
 
-
-export const Ascii: React.FC<Props> = (props) => {
+export default function Ascii(props: Props) {
   return (
     <div className="flex justify-center">
       <div className="whitespace-pre-line font-mono text-xs leading-none">
@@ -13,4 +12,4 @@ export const Ascii: React.FC<Props> = (props) => {
       </div>
     </div>
   );
-};
+}

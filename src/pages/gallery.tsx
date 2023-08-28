@@ -1,4 +1,4 @@
-import { Ascii } from "@/components/Ascii";
+import Ascii from "@/components/Ascii";
 import { getData } from "./api/getAscii";
 import React from "react";
 import { RootState } from "@/redux/store";
