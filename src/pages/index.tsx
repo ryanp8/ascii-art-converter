@@ -22,7 +22,7 @@ export default function Home() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  console.log(user)
+  console.log(user);
 
   const toBase64 = (file: File) =>
     new Promise((resolve, reject) => {
@@ -150,12 +150,14 @@ export default function Home() {
                       }}
                     />
                   </div>
-                  <button
-                    onClick={onUpload}
-                    className="w-full bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-2 border border-blue-500 hover:border-transparent rounded"
-                  >
-                    Upload to gallery
-                  </button>
+                  {ascii && (
+                    <button
+                      onClick={onUpload}
+                      className="w-full bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-2 border border-blue-500 hover:border-transparent rounded"
+                    >
+                      Upload to gallery
+                    </button>
+                  )}
                 </>
               )}
             </form>
