@@ -12,6 +12,7 @@ Users can upload images up to 1mb and convert them into ASCII art. They then hav
  - Wanted more experience writing backend code.
 
 ### Todo
+ - Look into why the initial page load for the gallery is slow.
  - Clean up parts of the backend. Some token verification code is unnecessarily repeated. Could possibly be abstracted away into a separate Auth class.
 
 
