@@ -23,7 +23,6 @@ export default async function handler(
 
   const decodedPayload = jwt.decode(accessToken) as JwtPayload;
   const { userId: tokenUserId } = parseDecodedToken(decodedPayload.data);
-  console.log(userId, tokenUserId)
   if (userId !== tokenUserId) {
     res.status(401).send({ message: "unauthorized" });
     return;

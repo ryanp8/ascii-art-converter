@@ -87,7 +87,6 @@ export default function Home() {
   };
   return (
     <>
-      <AuthModal />
       <div className="flex flex-col align-center m-8">
         <h1 className="text-4xl text-center">Image to Ascii Art Converter</h1>
         <div className="my-8 flex flex-col md:flex-row">

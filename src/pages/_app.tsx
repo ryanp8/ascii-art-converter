@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 
 import { UserContext } from "@/context/userContext";
 import Navbar from "@/components/Navbar";
+import AuthModal from "@/components/AuthModal";
 
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -26,6 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <UserContext.Provider value={{ user, setUser }}>
+        <AuthModal />
         <Navbar />
         <Component {...pageProps} />
       </UserContext.Provider>
