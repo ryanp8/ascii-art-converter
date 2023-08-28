@@ -5,7 +5,7 @@ import { RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { addAscii, deleteAscii } from "@/redux/asciiSlice";
 import { useRouter } from "next/router";
-import GalleryItem from "@/components/galleryItem";
+import GalleryItem from "@/components/GalleryItem";
 
 interface Data {
   id: string;

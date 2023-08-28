@@ -6,7 +6,6 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useDispatch } from "react-redux";
 import { setAuthOpen } from "@/redux/uiSlice";
 import { UserContext } from "@/context/userContext";
-import AuthModal from "./AuthModal";
 
 interface Props {
   ascii: string;
